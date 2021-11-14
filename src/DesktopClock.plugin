@@ -1,0 +1,8 @@
+[Plugin]
+Module=desktop-analog-clock.so
+Name=Desktop Analog Clock
+Description=Desktop Analog Clock
+Authors=Sam Lane
+Copyright=2020 Sam Lane
+Website=https://github.com/samlane-ma/
+Icon=panel-analogue-symbolic
