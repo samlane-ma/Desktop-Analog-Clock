@@ -84,7 +84,7 @@ namespace DesktopClock {
                 }
             }
         }
-\
+
         private bool on_draw (Widget da, Context ctx) {
             double number_offset;
             center_x = scale / 2;
@@ -126,7 +126,7 @@ namespace DesktopClock {
             color.parse(framecolor);
             ctx.set_line_width (scale / 50);
             ctx.set_source_rgba(color.red, color.green, color.blue, color.alpha);
-            ctx.arc(center_x, center_y, (scale - scale / 50) / 2, 0, 2 * Math.PI);
+            ctx.arc(center_x, center_y, (scale - scale / 50 -1) / 2, 0, 2 * Math.PI);
             ctx.stroke();
         }
 
