@@ -38,10 +38,6 @@ message('Installing applet...')
 subdir('src')
 subdir('icons')
 
-install_data('src/desktop-clock.py',
-    install_dir: LIB_INSTALL_DIR
-)
-
 install_data('schema/com.github.samlane-ma.desktop-analog-clock.gschema.xml',
     install_dir: '/usr/share/glib-2.0/schemas'
 )

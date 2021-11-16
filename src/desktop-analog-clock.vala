@@ -159,7 +159,7 @@ namespace DesktopClock {
 
         public DesktopClockApplet(string uuid) {
 
-            clockpath = moduledir.concat("/desktop-clock.py");
+            clockpath = moduledir.concat("/desktop-clock");
 
             settings.changed["show-desktop"].connect( () => 
                                 { start_stop_desktop(clockpath, settings.get_boolean("show-desktop")); });

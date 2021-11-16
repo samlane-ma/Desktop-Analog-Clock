@@ -22,3 +22,30 @@ DesktopClockValaArgs = [
 ]
 
 shared_library('desktop-analog-clock', DesktopClockSources, dependencies: DesktopClockDependencies, vala_args: DesktopClockValaArgs, install: true, install_dir: LIB_INSTALL_DIR)
+
+DesktopClockExecutableSources = [
+'desktop-clock.vala'
+]
+
+DesktopClockExecutableDependencies = [
+dependency('gtk+-3.0'),
+meson.get_compiler('c').find_library('m', required: false)
+]
+
+DesktopClockExecutableValaArgs = [
+'--target-glib=2.38',
+]
+
+DesktopClockExecutableCArgs = [
+'-lm',
+'-DWNCK_I_KNOW_THIS_IS_UNSTABLE'
+]
+
+executable(
+    'desktop-clock', DesktopClockExecutableSources,
+    dependencies: DesktopClockExecutableDependencies,
+    install: true,
+    vala_args: DesktopClockExecutableValaArgs,
+    c_args: DesktopClockExecutableCArgs,
+    install_dir: LIB_INSTALL_DIR,
+)
