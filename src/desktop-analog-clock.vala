@@ -150,12 +150,16 @@ namespace DesktopClock {
             Gdk.RGBA c = button.get_rgba();
             app_settings.set_string(part, c.to_string());
         }
+        
     }
 
     public class DesktopClockApplet : Budgie.Applet {
 
         public string uuid { public set; public get; }
         private GLib.Settings settings = new GLib.Settings ("com.github.samlane-ma.desktop-analog-clock");
+        private GLib.Settings? panel_settings;
+        private GLib.Settings? currpanelsubject_settings;
+        private ulong panel_signal;
 
         public DesktopClockApplet(string uuid) {
 
@@ -167,6 +171,8 @@ namespace DesktopClock {
             if (settings.get_boolean("show-desktop")) {
                 start_stop_desktop(clockpath, true);
             }
+            Idle.add(() => { watch_applet(uuid); 
+                return false;});
         }
 
         private void start_stop_desktop(string cmd, bool run) {
@@ -185,6 +191,40 @@ namespace DesktopClock {
                 }
                 catch (SpawnError e) {
                     /* nothing to be done */
+                }
+            }
+        }
+        private bool find_applet(string find_uuid, string[] applet_list) {
+            // Search panel applets for the given uuid
+            for (int i = 0; i < applet_list.length; i++) {
+                if (applet_list[i] == find_uuid) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private void watch_applet(string find_uuid) {
+            // Check if the applet is still on the panel and ends cleanly if not
+            string[] applets;
+            string soluspath = "com.solus-project.budgie-panel";
+            panel_settings = new GLib.Settings(soluspath);
+            string[] allpanels_list = panel_settings.get_strv("panels");
+            foreach (string p in allpanels_list) {
+                string panelpath = "/com/solus-project/budgie-panel/panels/".concat("{", p, "}/");
+                currpanelsubject_settings = new GLib.Settings.with_path(
+                    soluspath + ".panel", panelpath
+                );
+                applets = currpanelsubject_settings.get_strv("applets");
+                if (find_applet(find_uuid, applets)) {
+                     panel_signal = currpanelsubject_settings.changed["applets"].connect(() => {
+                        applets = currpanelsubject_settings.get_strv("applets");
+                        if (!find_applet(find_uuid, applets)) {
+                            currpanelsubject_settings.disconnect(panel_signal);
+                            settings.set_boolean("show-desktop", false);
+                            start_stop_desktop(clockpath, false);
+                        }
+                    });
                 }
             }
         }

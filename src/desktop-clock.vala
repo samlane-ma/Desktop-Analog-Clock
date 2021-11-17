@@ -67,6 +67,8 @@ namespace DesktopClock {
             }
             if (key == "all" || key == "scale") {
                  scale = app_settings.get_int("scale");
+                 center_x = scale / 2;
+                 center_y = scale / 2;
                  resize(scale, scale);
             }
             if (key == "all" || key in coords ) {
@@ -87,8 +89,6 @@ namespace DesktopClock {
 
         private bool on_draw (Widget da, Context ctx) {
             double number_offset;
-            center_x = scale / 2;
-            center_y = scale / 2;
             var current_time = new DateTime.now_local();
             hour = current_time.get_hour();
             minute = current_time.get_minute();

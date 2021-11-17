@@ -38,7 +38,6 @@ DesktopClockExecutableValaArgs = [
 
 DesktopClockExecutableCArgs = [
 '-lm',
-'-DWNCK_I_KNOW_THIS_IS_UNSTABLE'
 ]
 
 executable(
