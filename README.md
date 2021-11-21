@@ -1,5 +1,9 @@
 # Desktop Analog Clock
 
+Add an analog clock to the Budgie Desktop
+
+WORK IN PROGRESS - use at own risk
+
 i.e. for Debian based distros
 
 To install (for Debian/Ubuntu):
